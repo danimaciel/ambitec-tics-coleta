@@ -1,6 +1,6 @@
 # Ambitec-TICs Coleta Piloto
 
-Protótipo estático para coleta da dimensão Desenvolvimento Institucional do Ambitec-TICs.
+Protótipo estático para coleta piloto do Ambitec-TICs, com dimensões institucional, ambiental, econômica e social.
 
 ## Como abrir localmente
 
@@ -22,9 +22,10 @@ Abra `index.html` no navegador.
 ## O que esta versão faz
 
 - Coleta metadados da avaliação.
-- Coleta respostas por critério e componente.
+- Coleta respostas por dimensão, critério e componente.
 - Valida soma dos pesos.
-- Calcula o índice da dimensão.
+- Calcula o índice da dimensão selecionada.
+- Calcula índice geral TIC para as dimensões ambiental, econômica e social.
 - Salva rascunho no navegador.
 - Exporta JSON e CSV.
 - Gera uma visualização de relatório para impressão.

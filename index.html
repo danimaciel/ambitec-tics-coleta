@@ -26,7 +26,7 @@
         <section class="panel-block">
           <h2>Resultado</h2>
           <div class="score-card">
-            <span class="score-label">Índice da dimensão</span>
+            <span id="scoreLabel" class="score-label">Índice da dimensão</span>
             <strong id="dimensionScore">0,00</strong>
           </div>
           <dl class="metrics">
@@ -41,6 +41,10 @@
             <div>
               <dt>Pesos</dt>
               <dd id="weightStatus">OK</dd>
+            </div>
+            <div>
+              <dt>Índice TIC</dt>
+              <dd id="overallScore">0,00</dd>
             </div>
           </dl>
         </section>
@@ -75,10 +79,11 @@
         <div class="workspace-heading">
           <div>
             <p class="eyebrow">Dimensão</p>
-            <h2>Desenvolvimento Institucional</h2>
+            <h2 id="dimensionTitle">Desenvolvimento Institucional</h2>
           </div>
           <button id="printReport" type="button" class="secondary">Relatório</button>
         </div>
+        <nav id="dimensionTabs" class="dimension-tabs" aria-label="Dimensões Ambitec-TICs"></nav>
         <div id="criteriaContainer" class="criteria-list"></div>
       </section>
     </main>

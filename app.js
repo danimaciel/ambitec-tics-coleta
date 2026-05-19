@@ -6,8 +6,11 @@ const scales = [
 
 const coefficientOptions = ["", "-3", "-1", "0", "1", "3"];
 
-const criteria = [
+const dimensions = ["Institucional", "Ambiental", "Econômica", "Social"];
+
+const institutionalCriteria = [
   {
+    dimension: "Institucional",
     id: "relacoes-equipe",
     aspect: "Capacidade Relacional",
     name: "Relações de equipe / rede de pesquisa",
@@ -20,8 +23,17 @@ const criteria = [
       ["eventos-formais", "Eventos técnico-científicos formais realizados", 0.2],
       ["adocao-metodologica", "Adoção / apropriação metodológica por membros da rede", 0.2],
     ],
+    sample: {
+      "diversidade-especialidades": { local: 1 },
+      interdisciplinaridade: { local: 3 },
+      "know-how": { local: 3 },
+      "grupos-pesquisa": { local: 0 },
+      "eventos-formais": { local: 0 },
+      "adocao-metodologica": { entorno: 3 },
+    },
   },
   {
+    dimension: "Institucional",
     id: "relacoes-interlocutores",
     aspect: "Capacidade Relacional",
     name: "Relações com interlocutores",
@@ -34,8 +46,17 @@ const criteria = [
       ["redes-comunitarias", "Redes de interações comunitárias", 0.2],
       ["insercao-mercado", "Inserção no mercado", 0.2],
     ],
+    sample: {
+      "diversidade-interlocutores": { entorno: 3 },
+      interatividade: { entorno: 3 },
+      "know-who": { entorno: 3 },
+      "fontes-recursos": { entorno: -3 },
+      "redes-comunitarias": { entorno: 3 },
+      "insercao-mercado": { entorno: 1 },
+    },
   },
   {
+    dimension: "Institucional",
     id: "instalacoes",
     aspect: "Capacidade Científica-Tecnológica",
     name: "Instalações (métodos e meios)",
@@ -48,8 +69,17 @@ const criteria = [
       ["informatizacao", "Informatização / automação / tecnologia da informação", 0.1],
       ["compartilhamento", "Compartilhamento da infraestrutura", 0.1],
     ],
+    sample: {
+      "infra-institucional": { entorno: 3 },
+      "infra-operacional": { local: 3 },
+      "instrumental-operacional": { local: 3 },
+      "instrumental-bibliografico": { entorno: 0 },
+      informatizacao: { entorno: 3 },
+      compartilhamento: { entorno: 3 },
+    },
   },
   {
+    dimension: "Institucional",
     id: "recursos-projeto",
     aspect: "Capacidade Científica-Tecnológica",
     name: "Recursos do projeto",
@@ -61,8 +91,16 @@ const criteria = [
       ["consultores-bolsistas", "Consultores, bolsistas e visitantes", 0.2],
       ["diarias-estadas", "Diárias, traslados e estadas", 0.2],
     ],
+    sample: {
+      "ampliacao-area": { entorno: 3 },
+      "informatizacao-recursos": { entorno: 3 },
+      "aquisicao-bibliografica": { entorno: 0 },
+      "consultores-bolsistas": { entorno: 0 },
+      "diarias-estadas": { entorno: 0 },
+    },
   },
   {
+    dimension: "Institucional",
     id: "equipe-rede",
     aspect: "Capacidade Organizacional",
     name: "Equipe / Rede de pesquisa",
@@ -75,8 +113,17 @@ const criteria = [
       ["organizacao-eventos", "Organização de eventos técnico-científicos", 0.1],
       ["sistemas-gestao", "Sistemas de gestão e qualidade", 0.1],
     ],
+    sample: {
+      "cursos-internos": { entorno: -1 },
+      experimentos: { entorno: 0 },
+      "bancos-dados": { entorno: 3 },
+      "participacao-eventos": { entorno: 1 },
+      "organizacao-eventos": { entorno: 0 },
+      "sistemas-gestao": { entorno: 0 },
+    },
   },
   {
+    dimension: "Institucional",
     id: "transferencia-extensao",
     aspect: "Capacidade Organizacional",
     name: "Transferência / extensão",
@@ -89,8 +136,17 @@ const criteria = [
       ["projetos-extensao", "Projetos de extensão / desenvolvimento local", 0.1],
       ["disciplinas", "Disciplinas em cursos", 0.1],
     ],
+    sample: {
+      "treinamentos-publico": { entorno: 1 },
+      participantes: { entorno: 1 },
+      "unidades-demonstrativas": { entorno: 0 },
+      midia: { entorno: 1 },
+      "projetos-extensao": { entorno: 0 },
+      disciplinas: { entorno: 0 },
+    },
   },
   {
+    dimension: "Institucional",
     id: "produtos-pd",
     aspect: "Produtos de Pesquisa e Desenvolvimento",
     name: "Produtos de P&D",
@@ -102,8 +158,16 @@ const criteria = [
       ["teses", "Teses, dissertações e TCCs", 0.2],
       ["livros-midias", "Livros, capítulos, boletins, guias, websites e mapas", 0.2],
     ],
+    sample: {
+      congressos: { na: true },
+      artigos: { na: true },
+      "impacto-wos": { na: true },
+      teses: { na: true },
+      "livros-midias": { na: true },
+    },
   },
   {
+    dimension: "Institucional",
     id: "produtos-tecnologicos",
     aspect: "Produtos de Pesquisa e Desenvolvimento",
     name: "Produtos tecnológicos",
@@ -115,65 +179,286 @@ const criteria = [
       ["produtos", "Produtos tecnológicos", 0.2],
       ["marcos", "Marcos regulatórios", 0.2],
     ],
+    sample: {
+      patentes: { entorno: 0 },
+      variedades: { entorno: 0 },
+      praticas: { entorno: 1 },
+      produtos: { entorno: 0 },
+      marcos: { entorno: 1 },
+    },
   },
-].map((criterion) => ({
+];
+
+const ticCriteria = [
+  {
+    dimension: "Ambiental",
+    id: "praticas-politicas-sustentabilidade",
+    name: "Práticas e políticas de base para sustentabilidade",
+    weight: 0.084,
+    components: [
+      ["emissoes-atmosfericas", "Prevenção / mitigação de emissões atmosféricas", 0.15],
+      ["recursos-hidricos", "Conservação de recursos hídricos", 0.15],
+      ["solo", "Conservação da capacidade produtiva do solo", 0.15],
+      ["ordenamento-solo", "Ordenamento do uso e ocupação do solo", 0.15],
+      ["habitats", "Conservação dos habitats naturais", 0.15],
+      ["biodiversidade", "Conservação de recursos genéticos / biodiversidade", 0.15],
+      ["energias-alternativas", "Promoção de energias alternativas e autonomia", 0.1],
+    ],
+    sample: {
+      "emissoes-atmosfericas": { entorno: 3 },
+      "recursos-hidricos": { entorno: 3 },
+      solo: { pontual: 0 },
+      "ordenamento-solo": { entorno: 3 },
+      habitats: { entorno: 3 },
+      biodiversidade: { entorno: 3 },
+      "energias-alternativas": { pontual: 0 },
+    },
+  },
+  {
+    dimension: "Ambiental",
+    id: "ods",
+    name: "Alinhamento aos Objetivos do Desenvolvimento Sustentável",
+    weight: 0.084,
+    components: [
+      ["pobreza", "Redução da pobreza (1)", 0.2],
+      ["fome", "Redução da fome (2)", 0.2],
+      ["saude", "Promoção da saúde e bem-estar (3)", 0.15],
+      ["desigualdades", "Redução de desigualdades (10)", 0.15],
+      ["responsabilidade-social", "Responsabilidade social institucional (16)", 0.15],
+      ["parcerias-ods", "Parcerias institucionais para promoção dos ODS (17)", 0.15],
+    ],
+    sample: {
+      pobreza: { entorno: 3 },
+      fome: { entorno: 3 },
+      saude: { entorno: 3 },
+      desigualdades: { entorno: 3 },
+      "responsabilidade-social": { entorno: 3 },
+      "parcerias-ods": { entorno: 3 },
+    },
+  },
+  {
+    dimension: "Ambiental",
+    id: "dependencia-materiais",
+    name: "Dependência de materiais, energia e infraestrutura",
+    weight: 0.082,
+    components: [
+      ["combustiveis-fosseis", "Consumo de combustíveis fósseis", -0.1],
+      ["biocombustiveis", "Consumo de biocombustíveis", -0.05],
+      ["energia-eletrica", "Consumo de energia elétrica", -0.15],
+      ["agua", "Consumo de água", -0.15],
+      ["fertilizantes", "Consumo de fertilizantes", -0.15],
+      ["pesticidas", "Consumo de pesticidas", -0.25],
+      ["equipamentos-logistica", "Dependência de equipamentos e logística", -0.15],
+    ],
+    sample: {
+      "combustiveis-fosseis": { entorno: -3 },
+      biocombustiveis: { entorno: -3 },
+      "energia-eletrica": { entorno: -3 },
+      agua: { entorno: -3 },
+      fertilizantes: { entorno: -3 },
+      pesticidas: { entorno: -3 },
+      "equipamentos-logistica": { entorno: -3 },
+    },
+  },
+  {
+    dimension: "Ambiental",
+    id: "contaminantes-residuos",
+    name: "Geração / emissão de contaminantes / resíduos",
+    weight: 0.082,
+    components: [
+      ["efluentes-gasosos", "Efluentes gasosos", -0.3],
+      ["efluentes-liquidos", "Efluentes líquidos", -0.4],
+      ["efluentes-solidos", "Efluentes sólidos", -0.3],
+    ],
+    sample: {
+      "efluentes-gasosos": { entorno: -3 },
+      "efluentes-liquidos": { entorno: -3 },
+      "efluentes-solidos": { entorno: -3 },
+    },
+  },
+  {
+    dimension: "Econômica",
+    id: "produtividade-rentabilidade",
+    name: "Produtividade / Rentabilidade",
+    weight: 0.084,
+    components: [
+      ["rentabilidade-trabalho", "Produtividade / Rentabilidade do trabalho", 0.3],
+      ["rentabilidade-infra", "Produtividade / Rentabilidade da infraestrutura e equipamentos", 0.2],
+      ["rentabilidade-terra", "Produtividade / Rentabilidade da terra", 0.25],
+      ["valorizacao-patrimonial", "Valorização patrimonial", 0.25],
+    ],
+    sample: {
+      "rentabilidade-trabalho": { entorno: 3 },
+      "rentabilidade-infra": { entorno: 3 },
+      "rentabilidade-terra": { entorno: 3 },
+      "valorizacao-patrimonial": { entorno: 3 },
+    },
+  },
+  {
+    dimension: "Econômica",
+    id: "eficiencia-aquisicao",
+    name: "Eficiência na aquisição de dados / informações",
+    weight: 0.084,
+    components: [
+      ["tempo-aquisicao", "Redução do tempo de aquisição / obtenção", 0.2],
+      ["economia-acesso", "Economia no acesso e obtenção", 0.2],
+      ["usabilidade", "Usabilidade do sistema / software / técnica", 0.2],
+      ["complementaridade", "Complementaridade com sistemas preexistentes", 0.2],
+      ["compatibilidade", "Compatibilidade com sistemas preexistentes", 0.2],
+    ],
+    sample: {
+      "tempo-aquisicao": { entorno: 3 },
+      "economia-acesso": { entorno: 3 },
+      usabilidade: { entorno: 3 },
+      complementaridade: { entorno: 3 },
+      compatibilidade: { entorno: 3 },
+    },
+  },
+  {
+    dimension: "Econômica",
+    id: "acesso-recursos-financeiros",
+    name: "Acesso a recursos financeiros",
+    weight: 0.084,
+    components: [
+      ["credito", "Acesso a crédito / empréstimos", 0.2],
+      ["fomento", "Acesso a fomento / não reembolsáveis", 0.2],
+      ["bolsas", "Acesso a bolsas de estudo", 0.2],
+      ["investimentos", "Acesso a investimentos / recursos privados", 0.2],
+      ["vendas", "Vendas / comercialização", 0.2],
+    ],
+    sample: {
+      credito: { entorno: 3 },
+      fomento: { entorno: 3 },
+      bolsas: { entorno: 3 },
+      investimentos: { entorno: 3 },
+      vendas: { entorno: 3 },
+    },
+  },
+  {
+    dimension: "Social",
+    id: "respeito-consumidor",
+    name: "Respeito ao consumidor / usuário da tecnologia",
+    weight: 0.084,
+    components: [
+      ["saude-animal", "Bem estar e saúde animal", 0.2],
+      ["qualidade-produtos", "Qualidade dos produtos / serviços / processos", 0.2],
+      ["capital-social", "Capital social", 0.2],
+      ["generos", "Oportunidade e igualdade de gêneros", 0.2],
+      ["seguranca-alimentar", "Segurança alimentar", 0.2],
+    ],
+    sample: {
+      "saude-animal": { entorno: 3 },
+      "qualidade-produtos": { entorno: 3 },
+      "capital-social": { entorno: 3 },
+      generos: { entorno: 3 },
+      "seguranca-alimentar": { entorno: 3 },
+    },
+  },
+  {
+    dimension: "Social",
+    id: "capacitacao",
+    name: "Capacitação e qualificação",
+    weight: 0.082,
+    components: [
+      ["curta-duracao", "Local de curta duração", 0.15],
+      ["especializacao", "Especialização", 0.2],
+      ["educacao-formal", "Educação formal", 0.2],
+      ["basico", "Básico", 0.1],
+      ["tecnico", "Técnico", 0.15],
+      ["superior", "Superior", 0.2],
+    ],
+    sample: {
+      "curta-duracao": { entorno: 3 },
+      especializacao: { entorno: 3 },
+      "educacao-formal": { entorno: 3 },
+      basico: { entorno: 3 },
+      tecnico: { entorno: 3 },
+      superior: { entorno: 3 },
+    },
+  },
+  {
+    dimension: "Social",
+    id: "trabalho-emprego",
+    name: "Oferta e qualidade do trabalho / emprego",
+    weight: 0.082,
+    components: [
+      ["temporario", "Temporário", 0.05],
+      ["permanente", "Permanente", 0.15],
+      ["parcerias-familia", "Parcerias / participação familiar", 0.15],
+      ["registro-formal", "Registro formal", 0.25],
+      ["auxilio-alimentacao", "Auxílio alimentação", 0.2],
+      ["auxilio-moradia", "Auxílio moradia / transporte", 0.2],
+    ],
+    sample: {
+      temporario: { entorno: 3 },
+      permanente: { entorno: 3 },
+      "parcerias-familia": { entorno: 3 },
+      "registro-formal": { entorno: 3 },
+      "auxilio-alimentacao": { entorno: 3 },
+      "auxilio-moradia": { entorno: 3 },
+    },
+  },
+  {
+    dimension: "Social",
+    id: "qualidade-informacao",
+    name: "Qualidade do recurso 'informação'",
+    weight: 0.084,
+    components: [
+      ["precisao", "Precisão / nível de detalhe da informação", 0.2],
+      ["backup", "Back-up / segurança", 0.1],
+      ["rastreabilidade", "Rastreabilidade", 0.1],
+      ["credibilidade", "Credibilidade", 0.2],
+      ["atualidade", "Atualidade da informação", 0.2],
+      ["spin-off", "Desdobramentos para novos produtos / tecnologias", 0.2],
+    ],
+    sample: {
+      precisao: { entorno: 3 },
+      backup: { entorno: 3 },
+      rastreabilidade: { entorno: 3 },
+      credibilidade: { entorno: 3 },
+      atualidade: { entorno: 3 },
+      "spin-off": { entorno: 3 },
+    },
+  },
+  {
+    dimension: "Social",
+    id: "politicas-publicas",
+    name: "Efetividade / aplicabilidade para programas, ações ou políticas públicas",
+    weight: 0.084,
+    components: [
+      ["subsidio-papp", "Subsídio à geração de PAPP", 0.25],
+      ["execucao-papp", "Auxílio na execução de PAPP", 0.25],
+      ["ampliacao-papp", "Ampliação de PAPP", 0.25],
+      ["aperfeicoamento-papp", "Aperfeiçoamento de PAPP", 0.25],
+    ],
+    sample: {
+      "subsidio-papp": { entorno: 3 },
+      "execucao-papp": { entorno: 3 },
+      "ampliacao-papp": { entorno: 3 },
+      "aperfeicoamento-papp": { entorno: 3 },
+    },
+  },
+];
+
+const allCriteria = [...institutionalCriteria, ...ticCriteria].map((criterion) => ({
   ...criterion,
+  aspect: criterion.aspect || criterion.dimension,
+  componentTarget: criterion.components.reduce((total, component) => total + component[2], 0),
   components: criterion.components.map(([id, name, weight]) => ({ id, name, weight })),
 }));
 
-const sampleResponses = {
-  "diversidade-especialidades": { local: 1 },
-  "interdisciplinaridade": { local: 3 },
-  "know-how": { local: 3 },
-  "grupos-pesquisa": { local: 0 },
-  "eventos-formais": { local: 0 },
-  "adocao-metodologica": { entorno: 3 },
-  "diversidade-interlocutores": { entorno: 3 },
-  interatividade: { entorno: 3 },
-  "know-who": { entorno: 3 },
-  "fontes-recursos": { entorno: -3 },
-  "redes-comunitarias": { entorno: 3 },
-  "insercao-mercado": { entorno: 1 },
-  "infra-institucional": { entorno: 3 },
-  "infra-operacional": { local: 3 },
-  "instrumental-operacional": { local: 3 },
-  "instrumental-bibliografico": { entorno: 0 },
-  informatizacao: { entorno: 3 },
-  compartilhamento: { entorno: 3 },
-  "ampliacao-area": { entorno: 3 },
-  "informatizacao-recursos": { entorno: 3 },
-  "aquisicao-bibliografica": { entorno: 0 },
-  "consultores-bolsistas": { entorno: 0 },
-  "diarias-estadas": { entorno: 0 },
-  "cursos-internos": { entorno: -1 },
-  experimentos: { entorno: 0 },
-  "bancos-dados": { entorno: 3 },
-  "participacao-eventos": { entorno: 1 },
-  "organizacao-eventos": { entorno: 0 },
-  "sistemas-gestao": { entorno: 0 },
-  "treinamentos-publico": { entorno: 1 },
-  participantes: { entorno: 1 },
-  "unidades-demonstrativas": { entorno: 0 },
-  midia: { entorno: 1 },
-  "projetos-extensao": { entorno: 0 },
-  disciplinas: { entorno: 0 },
-  congressos: { na: true },
-  artigos: { na: true },
-  "impacto-wos": { na: true },
-  teses: { na: true },
-  "livros-midias": { na: true },
-  patentes: { entorno: 0 },
-  variedades: { entorno: 0 },
-  praticas: { entorno: 1 },
-  produtos: { entorno: 0 },
-  marcos: { entorno: 1 },
-};
+const stateKey = "ambitec-tics-piloto-v2";
+let currentDimension = "Institucional";
 
-const stateKey = "ambitec-tics-piloto-v1";
 const elements = {
   container: document.querySelector("#criteriaContainer"),
   template: document.querySelector("#criterionTemplate"),
+  dimensionTabs: document.querySelector("#dimensionTabs"),
+  dimensionTitle: document.querySelector("#dimensionTitle"),
   dimensionScore: document.querySelector("#dimensionScore"),
+  overallScore: document.querySelector("#overallScore"),
+  scoreLabel: document.querySelector("#scoreLabel"),
+  criteriaCount: document.querySelector("#criteriaCount"),
   answeredCount: document.querySelector("#answeredCount"),
   weightStatus: document.querySelector("#weightStatus"),
   validationList: document.querySelector("#validationList"),
@@ -187,6 +472,31 @@ function formatNumber(value) {
   return Number(value || 0).toLocaleString("pt-BR", {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
+  });
+}
+
+function selectedCriteria() {
+  return allCriteria.filter((criterion) => criterion.dimension === currentDimension);
+}
+
+function buildTabs() {
+  elements.dimensionTabs.textContent = "";
+  dimensions.forEach((dimension) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.textContent = dimension;
+    button.className = dimension === currentDimension ? "active" : "";
+    button.addEventListener("click", () => {
+      currentDimension = dimension;
+      buildInterface();
+      const saved = readStoredEvaluation();
+      if (saved.criteria) {
+        applyEvaluation(saved);
+      } else {
+        update();
+      }
+    });
+    elements.dimensionTabs.appendChild(button);
   });
 }
 
@@ -204,8 +514,10 @@ function buildSelect(componentId, scaleKey) {
 }
 
 function buildInterface() {
+  buildTabs();
+  elements.dimensionTitle.textContent = currentDimension === "Institucional" ? "Desenvolvimento Institucional" : `Dimensão ${currentDimension}`;
   elements.container.textContent = "";
-  criteria.forEach((criterion, index) => {
+  selectedCriteria().forEach((criterion, index) => {
     const node = elements.template.content.cloneNode(true);
     const card = node.querySelector(".criterion-card");
     const header = node.querySelector(".criterion-header");
@@ -233,7 +545,7 @@ function buildInterface() {
       const row = document.createElement("tr");
       row.innerHTML = `
         <td><div class="component-name">${component.name}</div></td>
-        <td><input type="number" min="0" max="1" step="0.1" value="${component.weight}" data-component-weight="${component.id}"></td>
+        <td><input type="number" min="-1" max="1" step="0.01" value="${component.weight}" data-component-weight="${component.id}"></td>
         <td></td>
         <td></td>
         <td></td>
@@ -258,25 +570,25 @@ function getMeta() {
     cycle: elements.cycleYear.value,
     evaluator: elements.evaluatorName.value.trim(),
     unit: elements.unitName.value.trim(),
-    dimension: "Desenvolvimento Institucional",
-    methodVersion: "piloto-github-pages-v1",
+    selectedDimension: currentDimension,
+    methodVersion: "piloto-github-pages-v2",
     savedAt: new Date().toISOString(),
   };
 }
 
-function getResponses() {
+function getResponsesFor(criteria) {
   return criteria.map((criterion) => {
-    const criterionWeight = Number(document.querySelector(`[data-criterion-weight="${criterion.id}"]`).value || 0);
+    const criterionWeight = Number(document.querySelector(`[data-criterion-weight="${criterion.id}"]`)?.value ?? criterion.weight);
     return {
       ...criterion,
       weight: criterionWeight,
       components: criterion.components.map((component) => {
-        const componentWeight = Number(document.querySelector(`[data-component-weight="${component.id}"]`).value || 0);
-        const na = document.querySelector(`[data-na="${component.id}"]`).checked;
-        const justification = document.querySelector(`[data-justification="${component.id}"]`).value.trim();
+        const componentWeight = Number(document.querySelector(`[data-component-weight="${component.id}"]`)?.value ?? component.weight);
+        const na = Boolean(document.querySelector(`[data-na="${component.id}"]`)?.checked);
+        const justification = document.querySelector(`[data-justification="${component.id}"]`)?.value.trim() || "";
         const values = {};
         scales.forEach((scale) => {
-          const value = document.querySelector(`[data-component="${component.id}"][data-scale="${scale.key}"]`).value;
+          const value = document.querySelector(`[data-component="${component.id}"][data-scale="${scale.key}"]`)?.value ?? "";
           values[scale.key] = value === "" ? null : Number(value);
         });
         return { ...component, weight: componentWeight, na, justification, values };
@@ -297,32 +609,79 @@ function calculateCriterion(criterion) {
   return criterion.components.reduce((total, component) => total + calculateComponent(component), 0);
 }
 
+function dimensionScore(results, dimension) {
+  const items = results.filter((criterion) => criterion.dimension === dimension);
+  const weightSum = items.reduce((total, criterion) => total + criterion.weight, 0);
+  if (!items.length || Math.abs(weightSum) < 0.0001) return 0;
+  return items.reduce((total, criterion) => total + criterion.score * criterion.weight, 0) / weightSum;
+}
+
+function overallTicScore(results) {
+  return results
+    .filter((criterion) => criterion.dimension !== "Institucional")
+    .reduce((total, criterion) => total + criterion.score * criterion.weight, 0);
+}
+
 function buildEvaluation() {
-  const responseCriteria = getResponses();
-  const results = responseCriteria.map((criterion) => {
-    const score = calculateCriterion(criterion);
-    return { id: criterion.id, name: criterion.name, aspect: criterion.aspect, weight: criterion.weight, score };
+  const visibleResponses = getResponsesFor(selectedCriteria());
+  const stored = readStoredEvaluation();
+  const merged = allCriteria.map((criterion) => {
+    const visible = visibleResponses.find((item) => item.id === criterion.id);
+    const saved = stored.criteria?.find((item) => item.id === criterion.id);
+    return visible || saved || {
+      ...criterion,
+      components: criterion.components.map((component) => ({
+        ...component,
+        na: false,
+        justification: "",
+        values: { pontual: null, local: null, entorno: null },
+      })),
+    };
   });
-  const dimensionScore = results.reduce((total, criterion) => total + criterion.score * criterion.weight, 0);
+  const results = merged.map((criterion) => ({
+    id: criterion.id,
+    name: criterion.name,
+    aspect: criterion.aspect,
+    dimension: criterion.dimension,
+    weight: criterion.weight,
+    score: calculateCriterion(criterion),
+  }));
   return {
     meta: getMeta(),
-    criteria: responseCriteria,
+    criteria: merged,
     results,
-    dimensionScore,
+    selectedDimensionScore: dimensionScore(results, currentDimension),
+    overallTicScore: overallTicScore(results),
   };
+}
+
+function readStoredEvaluation() {
+  try {
+    return JSON.parse(localStorage.getItem(stateKey) || "{}");
+  } catch {
+    return {};
+  }
+}
+
+function expectedComponentTarget(criterion) {
+  return criterion.componentTarget < 0 ? -1 : 1;
 }
 
 function validate(evaluation) {
   const messages = [];
-  const criterionWeightSum = evaluation.criteria.reduce((total, criterion) => total + criterion.weight, 0);
-  if (Math.abs(criterionWeightSum - 1) > 0.001) {
-    messages.push({ type: "bad", text: `Pesos dos critérios somam ${formatNumber(criterionWeightSum)}.` });
+  const ticWeightSum = evaluation.criteria
+    .filter((criterion) => criterion.dimension !== "Institucional")
+    .reduce((total, criterion) => total + criterion.weight, 0);
+  if (Math.abs(ticWeightSum - 1) > 0.001) {
+    messages.push({ type: "bad", text: `Pesos gerais TIC somam ${formatNumber(ticWeightSum)}.` });
   }
 
-  evaluation.criteria.forEach((criterion) => {
-    const componentWeightSum = criterion.components.reduce((total, component) => total + component.weight, 0);
-    if (Math.abs(componentWeightSum - 1) > 0.001) {
-      messages.push({ type: "bad", text: `${criterion.name}: pesos somam ${formatNumber(componentWeightSum)}.` });
+  selectedCriteria().forEach((criterion) => {
+    const current = evaluation.criteria.find((item) => item.id === criterion.id);
+    const componentWeightSum = current.components.reduce((total, component) => total + component.weight, 0);
+    const target = expectedComponentTarget(criterion);
+    if (Math.abs(componentWeightSum - target) > 0.001) {
+      messages.push({ type: "bad", text: `${criterion.name}: pesos dos componentes somam ${formatNumber(componentWeightSum)}.` });
     }
   });
 
@@ -330,34 +689,41 @@ function validate(evaluation) {
     messages.push({ type: "warn", text: "Tecnologia sem nome." });
   }
 
-  const answered = countAnswered(evaluation);
+  const answered = countAnswered(evaluation, currentDimension);
   if (answered === 0) {
-    messages.push({ type: "warn", text: "Nenhum componente respondido." });
+    messages.push({ type: "warn", text: "Nenhum componente respondido nesta dimensão." });
   }
 
   if (messages.length === 0) {
     messages.push({ type: "ok", text: "Estrutura consistente para coleta piloto." });
   }
-
   return messages;
 }
 
-function countAnswered(evaluation) {
-  return evaluation.criteria.reduce((total, criterion) => {
-    return total + criterion.components.filter((component) => {
-      const hasValue = Object.values(component.values).some((value) => value !== null);
-      return hasValue || component.na || component.justification;
-    }).length;
-  }, 0);
+function countAnswered(evaluation, dimension = null) {
+  return evaluation.criteria
+    .filter((criterion) => !dimension || criterion.dimension === dimension)
+    .reduce((total, criterion) => {
+      return total + criterion.components.filter((component) => {
+        const hasValue = Object.values(component.values).some((value) => value !== null);
+        return hasValue || component.na || component.justification;
+      }).length;
+    }, 0);
 }
 
 function update() {
   const evaluation = buildEvaluation();
-  evaluation.results.forEach((criterion) => {
-    document.querySelector(`[data-result="${criterion.id}"]`).textContent = formatNumber(criterion.score);
-  });
-  elements.dimensionScore.textContent = formatNumber(evaluation.dimensionScore);
-  elements.answeredCount.textContent = countAnswered(evaluation);
+  evaluation.results
+    .filter((criterion) => criterion.dimension === currentDimension)
+    .forEach((criterion) => {
+      const result = document.querySelector(`[data-result="${criterion.id}"]`);
+      if (result) result.textContent = formatNumber(criterion.score);
+    });
+  elements.criteriaCount.textContent = selectedCriteria().length;
+  elements.dimensionScore.textContent = formatNumber(evaluation.selectedDimensionScore);
+  elements.overallScore.textContent = formatNumber(evaluation.overallTicScore);
+  elements.answeredCount.textContent = countAnswered(evaluation, currentDimension);
+  elements.scoreLabel.textContent = currentDimension === "Institucional" ? "Índice institucional" : `Índice ${currentDimension.toLowerCase()}`;
 
   const messages = validate(evaluation);
   elements.weightStatus.textContent = messages.some((message) => message.type === "bad") ? "Rever" : "OK";
@@ -368,7 +734,7 @@ function update() {
     item.textContent = message.text;
     elements.validationList.appendChild(item);
   });
-
+  localStorage.setItem(stateKey, JSON.stringify(evaluation));
   return evaluation;
 }
 
@@ -377,9 +743,11 @@ function saveDraft() {
 }
 
 function restoreDraft() {
-  const saved = localStorage.getItem(stateKey);
-  if (!saved) return;
-  applyEvaluation(JSON.parse(saved));
+  const saved = readStoredEvaluation();
+  if (!saved.criteria) return;
+  currentDimension = saved.meta?.selectedDimension || currentDimension;
+  buildInterface();
+  applyEvaluation(saved);
 }
 
 function applyEvaluation(evaluation) {
@@ -388,10 +756,12 @@ function applyEvaluation(evaluation) {
   elements.evaluatorName.value = evaluation.meta?.evaluator || "";
   elements.unitName.value = evaluation.meta?.unit || "";
 
-  evaluation.criteria?.forEach((criterion) => {
+  selectedCriteria().forEach((criterion) => {
+    const saved = evaluation.criteria?.find((item) => item.id === criterion.id);
+    if (!saved) return;
     const criterionWeight = document.querySelector(`[data-criterion-weight="${criterion.id}"]`);
-    if (criterionWeight) criterionWeight.value = criterion.weight;
-    criterion.components.forEach((component) => {
+    if (criterionWeight) criterionWeight.value = saved.weight;
+    saved.components.forEach((component) => {
       const componentWeight = document.querySelector(`[data-component-weight="${component.id}"]`);
       const na = document.querySelector(`[data-na="${component.id}"]`);
       const justification = document.querySelector(`[data-justification="${component.id}"]`);
@@ -409,19 +779,26 @@ function applyEvaluation(evaluation) {
 }
 
 function loadSample() {
-  const evaluation = buildEvaluation();
-  evaluation.meta.technology = "GeoInfo";
-  evaluation.meta.cycle = "2021";
-  evaluation.criteria.forEach((criterion) => {
-    criterion.components.forEach((component) => {
-      const sample = sampleResponses[component.id];
-      component.na = Boolean(sample?.na);
-      component.justification = sample?.na ? "Não se aplica ao caso avaliado." : "";
-      scales.forEach((scale) => {
-        component.values[scale.key] = sample?.[scale.key] ?? null;
-      });
-    });
-  });
+  const evaluation = {
+    meta: { ...getMeta(), technology: "GeoInfo", cycle: "2021" },
+    criteria: allCriteria.map((criterion) => ({
+      ...criterion,
+      components: criterion.components.map((component) => {
+        const sample = criterion.sample?.[component.id] || {};
+        const values = {};
+        scales.forEach((scale) => {
+          values[scale.key] = sample[scale.key] ?? null;
+        });
+        return {
+          ...component,
+          na: Boolean(sample.na),
+          justification: sample.na ? "Não se aplica ao caso avaliado." : "",
+          values,
+        };
+      }),
+    })),
+  };
+  localStorage.setItem(stateKey, JSON.stringify(evaluation));
   applyEvaluation(evaluation);
 }
 
@@ -450,7 +827,7 @@ function exportCsv() {
       rows.push([
         evaluation.meta.technology,
         evaluation.meta.cycle,
-        evaluation.meta.dimension,
+        criterion.dimension,
         criterion.aspect,
         criterion.name,
         component.name,
