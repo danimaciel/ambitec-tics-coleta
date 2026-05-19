@@ -23,7 +23,8 @@ Abra `index.html` no navegador.
 
 - Coleta metadados da avaliação.
 - Coleta respostas por dimensão, critério e componente.
-- Valida soma dos pesos.
+- Valida soma dos fatores de ponderação `k`.
+- Usa coeficientes de alteração `-3`, `-1`, `0`, `1` e `3` nas escalas Pontual, Local e Entorno.
 - Calcula o índice da dimensão selecionada.
 - Calcula índice geral TIC para as dimensões ambiental, econômica e social.
 - Salva rascunho no navegador.

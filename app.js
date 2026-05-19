@@ -447,7 +447,7 @@ const allCriteria = [...institutionalCriteria, ...ticCriteria].map((criterion) =
   components: criterion.components.map(([id, name, weight]) => ({ id, name, weight })),
 }));
 
-const stateKey = "ambitec-tics-piloto-v2";
+const stateKey = "ambitec-tics-piloto-v3";
 let currentDimension = "Institucional";
 
 const elements = {
