@@ -381,6 +381,7 @@ const ticCriteria = [
     id: "trabalho-emprego",
     name: "Oferta e qualidade do trabalho / emprego",
     weight: 0.082,
+    componentTarget: 1.2,
     components: [
       ["temporario", "Temporário", 0.05],
       ["permanente", "Permanente", 0.15],
@@ -388,6 +389,7 @@ const ticCriteria = [
       ["registro-formal", "Registro formal", 0.25],
       ["auxilio-alimentacao", "Auxílio alimentação", 0.2],
       ["auxilio-moradia", "Auxílio moradia / transporte", 0.2],
+      ["auxilio-saude", "Auxílio saúde (complementar)", 0.2],
     ],
     sample: {
       temporario: { entorno: 3 },
@@ -396,6 +398,7 @@ const ticCriteria = [
       "registro-formal": { entorno: 3 },
       "auxilio-alimentacao": { entorno: 3 },
       "auxilio-moradia": { entorno: 3 },
+      "auxilio-saude": { entorno: 3 },
     },
   },
   {
@@ -443,11 +446,11 @@ const ticCriteria = [
 const allCriteria = [...institutionalCriteria, ...ticCriteria].map((criterion) => ({
   ...criterion,
   aspect: criterion.aspect || criterion.dimension,
-  componentTarget: criterion.components.reduce((total, component) => total + component[2], 0),
+  componentTarget: criterion.componentTarget ?? criterion.components.reduce((total, component) => total + component[2], 0),
   components: criterion.components.map(([id, name, weight]) => ({ id, name, weight })),
 }));
 
-const stateKey = "ambitec-tics-piloto-v3";
+const stateKey = "ambitec-tics-piloto-v4";
 let currentDimension = "Institucional";
 
 const elements = {
@@ -664,7 +667,7 @@ function readStoredEvaluation() {
 }
 
 function expectedComponentTarget(criterion) {
-  return criterion.componentTarget < 0 ? -1 : 1;
+  return criterion.componentTarget;
 }
 
 function validate(evaluation) {
