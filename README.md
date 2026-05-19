@@ -28,6 +28,7 @@ Abra `index.html` no navegador.
 - Calcula o índice da dimensão selecionada.
 - Calcula índice geral TIC para as dimensões ambiental, econômica e social.
 - Salva rascunho no navegador.
+- Envia dados para Google Sheets via Google Apps Script, quando uma URL de destino é configurada.
 - Exporta JSON e CSV.
 - Gera uma visualização de relatório para impressão.
 
@@ -44,3 +45,13 @@ Para uso institucional, o próximo passo é acoplar uma camada de persistência:
 - Google Sheets como base temporária.
 
 Para piloto com especialistas, a exportação JSON/CSV já é suficiente para testar método, telas, cálculo e fluxo.
+
+## Envio para Google Sheets
+
+1. Crie uma planilha no Google Sheets.
+2. Acesse `Extensões > Apps Script`.
+3. Cole o conteúdo de `google-apps-script.gs`.
+4. Publique como `Implantar > Nova implantação > App da Web`.
+5. Em acesso, escolha quem poderá enviar dados.
+6. Copie a URL do Web App.
+7. Cole essa URL no campo `Destino de dados` do formulário.

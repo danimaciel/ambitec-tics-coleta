@@ -450,7 +450,44 @@ const allCriteria = [...institutionalCriteria, ...ticCriteria].map((criterion) =
   components: criterion.components.map(([id, name, weight]) => ({ id, name, weight })),
 }));
 
-const stateKey = "ambitec-tics-piloto-v4";
+const defaultIdentification = {
+  technologyFullName: "Monitora Oeste: monitoramento e alerta da favorabilidade climática da ferrugem da soja e da mancha de Ramularia do algodão",
+  publicationName: "Monitora Oeste: monitoramento e alerta da favorabilidade climática da ferrugem da soja e da mancha de Ramularia do algodão",
+  theme: "Soluções digitais, equipamentos e serviços",
+  technologyImage: "",
+  partnerUnits: "Não se aplica",
+  chronology: "2022",
+  biomes: "Cerrado",
+  segProject: "Projeto SEG 30.19.00.152.00.00",
+  pdeLink: "Sem vínculo a Meta Estratégica (OE 04)\n04.1. Até 2025, aumentar em 30% o impacto econômico gerado por tecnologias desenvolvidas pela Embrapa e parceiros para o manejo de problemas zoofitossanitários. (meta de impacto)",
+  otherGoals: "1.1. Até 2025, incrementar em 20% o benefício econômico gerado por práticas agropecuárias e tecnologias sustentáveis redutoras de custos desenvolvidas pela Embrapa e parceiros\n2.1. Até 2025, ampliar em 100% o número de usuários de plataformas digitais de dados espaço-temporais integrados para o território brasileiro desenvolvidas pela Embrapa e parceiros\n7.1. Até 2027, ampliar a adoção de 60 soluções tecnológicas em automação e agricultura digital, pelo setor produtivo, para as cadeias agropecuárias desenvolvidas pela Embrapa e parceiros\n7.2. Até 2025, aumentar em 100% o número de usuários de aplicativos e sistemas digitais gerados pela Embrapa e parceiros\n7.3. Até 2027, aumentar em 10% o número de tecnologias emergentes e em áreas portadoras de futuro desenvolvidas",
+  justification: "O Monitora Oeste apresenta contribuições alinhadas às metas institucionais da Embrapa ao apoiar decisões de manejo, integrar dados ambientais e fitossanitários e favorecer o uso mais eficiente de insumos. No OE 01 – Produção sustentável e competitividade, o sistema demonstrou capacidade de reduzir custos ao racionalizar aplicações de defensivos, uma vez que disponibiliza informações detalhadas e atualizadas sobre condições fitossanitárias e climáticas. A coleta de esporos e bicudos por armadilhas, associada aos mapas diários de favorabilidade, auxilia na definição do momento adequado de aplicação, evitando pulverizações desnecessárias ou tardias e reduzindo perdas potenciais.\n\nNo OE 02 – Recursos naturais e mudança do clima, o Monitora Oeste reúne dados espaço-temporais provenientes de estações meteorológicas, armadilhas e modelos matemáticos desenvolvidos para o Extremo Oeste Baiano. A ferramenta foi implantada nos núcleos fitossanitários da região e utiliza informações climáticas integradas para apoiar o monitoramento.\n\nNo OE 04 – Segurança alimentar e saúde única, a ferramenta reforça o monitoramento de pragas e doenças de interesse agrícola, como a ferrugem da soja, a ramulária do algodão e o bicudo-do-algodoeiro. O uso de armadilhas e de modelos ajustados para a região permite ações mais rápidas diante da presença de esporos ou condições favoráveis ao desenvolvimento de doenças.\n\nNo OE 07 – Tecnologias disruptivas e emergentes, o Monitora Oeste se caracteriza como solução digital que integra informações fitossanitárias e climáticas em ambiente web. O sistema permite acompanhar condições de risco para pragas e doenças e utiliza dados coletados em redes colaborativas instaladas na região. A integração com instituições parceiras, como a Abapa e a Fundação Bahia, amplia o alcance do sistema e seu potencial de adoção.",
+  adoptionScope: "Região Oeste da Bahia\n\nTabela 1.1. Abrangência da adoção da solução tecnológica por região: Nordeste / BA = 100",
+  shortDescription: "O Monitora Oeste é uma ferramenta tecnológica de monitoramento e alerta fitossanitário, desenvolvida pela Embrapa Territorial em parceria com a Associação Baiana dos Produtores de Algodão (Abapa) e outras instituições. Seu objetivo é fornecer informações estratégicas para o manejo eficiente de doenças e pragas agrícolas, com destaque para a ferrugem asiática da soja, a mancha de Ramularia do algodoeiro e, mais recentemente, o bicudo-do-algodoeiro.\n\nA ferramenta combina dados climáticos, informações fitossanitárias e índices agrometeorológicos para otimizar a gestão das lavouras na região do Extremo Oeste Baiano. Desde seu lançamento em fevereiro de 2022, disponibiliza mapas diários de favorabilidade climática e alertas em tempo real, viabilizando decisões mais assertivas por parte dos produtores.\n\nA coleta de dados é feita por meio de uma rede integrada que combina estações meteorológicas já existentes na região e armadilhas específicas para captura de esporos. Os dados alimentam um banco centralizado mantido por uma rede colaborativa de pesquisadores, extensionistas e produtores.\n\nCom potencial para expansão geográfica e inclusão de outras culturas e pragas, o sistema apresenta oportunidades para aprimorar o manejo agrícola e viabilizar estudos futuros voltados ao desenvolvimento de novas tecnologias agrícolas.",
+  beneficiaries: "Empreendimentos de produção rural\nEmpreendimentos ou produtores rurais de base familiar e comunidades tradicionais\nInstituições e empresas de planejamento, transferência de tecnologia, extensão e assistência técnica\nProdutores de base familiar",
+  unitRole: "O relatório de avaliação de impactos foi elaborado integralmente pela Embrapa Territorial, incluindo a consolidação das informações, a aplicação do AMBITEC-TICs e a redação final dos resultados.",
+  chainImpacts: "O Monitora Oeste tem potencial de contribuir para a eficiência e sustentabilidade das cadeias produtivas de soja e algodão no Extremo Oeste Baiano, com impactos diretos nos elos mais próximos ao produtor rural, como produção agrícola, logística e indústria de insumos, além de promover avanços no desenvolvimento institucional da região.\n\nNo elo da produção agrícola, permite aprimorar o manejo fitossanitário, otimizando o controle de doenças como a ferrugem asiática da soja e a mancha de Ramularia do algodoeiro, além de pragas como o bicudo-do-algodoeiro. Com dados precisos para orientar a aplicação de defensivos, os produtores podem aumentar a eficiência produtiva, prevenir perdas e reduzir custos com insumos.\n\nNo segmento da indústria de insumos, a maior precisão das demandas geradas pelo sistema pode estimular o desenvolvimento de produtos mais eficazes e específicos. No setor logístico, os benefícios podem ser observados na redução de perdas no campo e no planejamento mais eficiente das operações de transporte e armazenagem.\n\nNa dimensão ambiental, pode contribuir para a redução de impactos negativos, como contaminação do solo e da água, ao orientar o uso mais racional de defensivos agrícolas. O desenvolvimento institucional também é significativo, pois a tecnologia promove integração entre produtores, pesquisadores, extensionistas e instituições públicas e privadas.\n\nEspecificamente na cadeia produtiva do algodão, o Monitora Oeste assume papel estratégico ao promover sustentabilidade e auxiliar o atendimento a critérios de certificações como Algodão Brasileiro Responsável (ABR) e Better Cotton Initiative (BCI)."
+};
+
+const defaultUser = {
+  name: "Alexandre de Amorim Teixeira",
+  institution: "ANA",
+  formation: "Geólogo\nDoutor em Geociências - Especialista em Geoprocessamento",
+  sector: "Coordenação de Conjuntura e Gestão da Informação (CCOGI)\nSuperintendência de Planejamento de Recursos Hídricos",
+  propertyName: "",
+  date: "",
+  propertyAdmin: "",
+  respondentName: "",
+  phone: "",
+  addressGeoref: "",
+  latitude: "",
+  longitude: "",
+  activityEvaluation: "",
+  startYear: "",
+  mainProblems: ""
+};
+
+const stateKey = "ambitec-tics-piloto-v5";
 let currentDimension = "Institucional";
 
 const elements = {
@@ -469,6 +506,7 @@ const elements = {
   cycleYear: document.querySelector("#cycleYear"),
   evaluatorName: document.querySelector("#evaluatorName"),
   unitName: document.querySelector("#unitName"),
+  dataEndpoint: document.querySelector("#dataEndpoint"),
 };
 
 function formatNumber(value) {
@@ -579,6 +617,37 @@ function getMeta() {
   };
 }
 
+function readNamedFields(selector, attribute) {
+  const data = {};
+  document.querySelectorAll(selector).forEach((field) => {
+    data[field.dataset[attribute]] = field.value;
+  });
+  return data;
+}
+
+function writeNamedFields(selector, attribute, values) {
+  document.querySelectorAll(selector).forEach((field) => {
+    const key = field.dataset[attribute];
+    field.value = values?.[key] ?? "";
+  });
+}
+
+function getIdentification() {
+  return readNamedFields("[data-identification]", "identification");
+}
+
+function getUserRegistration() {
+  return readNamedFields("[data-user]", "user");
+}
+
+function applyInitialIdentification() {
+  writeNamedFields("[data-identification]", "identification", defaultIdentification);
+  writeNamedFields("[data-user]", "user", defaultUser);
+  if (!elements.evaluatorName.value) elements.evaluatorName.value = defaultUser.name;
+  if (!elements.unitName.value) elements.unitName.value = defaultUser.institution;
+  elements.dataEndpoint.value = localStorage.getItem(`${stateKey}:endpoint`) || "";
+}
+
 function getResponsesFor(criteria) {
   return criteria.map((criterion) => {
     const criterionWeight = Number(document.querySelector(`[data-criterion-weight="${criterion.id}"]`)?.value ?? criterion.weight);
@@ -651,6 +720,8 @@ function buildEvaluation() {
   }));
   return {
     meta: getMeta(),
+    identification: getIdentification(),
+    user: getUserRegistration(),
     criteria: merged,
     results,
     selectedDimensionScore: dimensionScore(results, currentDimension),
@@ -743,6 +814,7 @@ function update() {
 
 function saveDraft() {
   localStorage.setItem(stateKey, JSON.stringify(update()));
+  localStorage.setItem(`${stateKey}:endpoint`, elements.dataEndpoint.value.trim());
 }
 
 function restoreDraft() {
@@ -758,6 +830,8 @@ function applyEvaluation(evaluation) {
   elements.cycleYear.value = evaluation.meta?.cycle || "";
   elements.evaluatorName.value = evaluation.meta?.evaluator || "";
   elements.unitName.value = evaluation.meta?.unit || "";
+  writeNamedFields("[data-identification]", "identification", evaluation.identification || defaultIdentification);
+  writeNamedFields("[data-user]", "user", evaluation.user || defaultUser);
 
   selectedCriteria().forEach((criterion) => {
     const saved = evaluation.criteria?.find((item) => item.id === criterion.id);
@@ -783,7 +857,9 @@ function applyEvaluation(evaluation) {
 
 function loadSample() {
   const evaluation = {
-    meta: { ...getMeta(), technology: "GeoInfo", cycle: "2021" },
+    meta: getMeta(),
+    identification: getIdentification(),
+    user: getUserRegistration(),
     criteria: allCriteria.map((criterion) => ({
       ...criterion,
       components: criterion.components.map((component) => {
@@ -813,6 +889,23 @@ function download(filename, content, type) {
   link.download = filename;
   link.click();
   URL.revokeObjectURL(url);
+}
+
+async function sendData() {
+  const endpoint = elements.dataEndpoint.value.trim();
+  if (!endpoint) {
+    alert("Informe a URL do Google Apps Script em Destino de dados.");
+    return;
+  }
+  const evaluation = update();
+  localStorage.setItem(`${stateKey}:endpoint`, endpoint);
+  await fetch(endpoint, {
+    method: "POST",
+    mode: "no-cors",
+    headers: { "Content-Type": "text/plain;charset=utf-8" },
+    body: JSON.stringify(evaluation),
+  });
+  alert("Envio solicitado. Confira a planilha de destino.");
 }
 
 function exportJson() {
@@ -849,6 +942,7 @@ function exportCsv() {
 }
 
 document.querySelector("#saveDraft").addEventListener("click", saveDraft);
+document.querySelector("#sendData").addEventListener("click", sendData);
 document.querySelector("#loadSample").addEventListener("click", loadSample);
 document.querySelector("#exportJson").addEventListener("click", exportJson);
 document.querySelector("#exportCsv").addEventListener("click", exportCsv);
@@ -860,7 +954,12 @@ document.querySelector("#clearDraft").addEventListener("click", () => {
 [elements.technologyName, elements.cycleYear, elements.evaluatorName, elements.unitName].forEach((input) => {
   input.addEventListener("input", update);
 });
+elements.dataEndpoint.addEventListener("input", () => localStorage.setItem(`${stateKey}:endpoint`, elements.dataEndpoint.value.trim()));
+document.querySelectorAll("[data-identification], [data-user]").forEach((input) => {
+  input.addEventListener("input", update);
+});
 
 buildInterface();
+applyInitialIdentification();
 restoreDraft();
 update();

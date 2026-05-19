@@ -14,7 +14,8 @@
       </div>
       <div class="top-actions">
         <button id="saveDraft" type="button">Salvar</button>
-        <button id="loadSample" type="button">GeoInfo</button>
+        <button id="sendData" type="button">Enviar</button>
+        <button id="loadSample" type="button">Amostra</button>
         <button id="exportJson" type="button">JSON</button>
         <button id="exportCsv" type="button">CSV</button>
         <button id="clearDraft" type="button" class="secondary">Limpar</button>
@@ -53,11 +54,11 @@
           <h2>Metadados</h2>
           <label>
             Tecnologia
-            <input id="technologyName" type="text" value="GeoInfo">
+            <input id="technologyName" type="text" value="Monitora Oeste">
           </label>
           <label>
             Ciclo
-            <input id="cycleYear" type="number" value="2021" min="2000" max="2100">
+            <input id="cycleYear" type="number" value="2022" min="2000" max="2100">
           </label>
           <label>
             Avaliador
@@ -73,9 +74,164 @@
           <h2>Validações</h2>
           <ul id="validationList" class="validation-list"></ul>
         </section>
+
+        <section class="panel-block">
+          <h2>Destino de dados</h2>
+          <label>
+            URL do Google Apps Script
+            <input id="dataEndpoint" type="url" placeholder="https://script.google.com/...">
+          </label>
+        </section>
       </aside>
 
       <section class="workspace" aria-label="Formulário de avaliação">
+        <section class="identity-section" aria-label="Identificação da tecnologia e do usuário">
+          <div class="workspace-heading">
+            <div>
+              <p class="eyebrow">Registro</p>
+              <h2>Identificação da tecnologia e do usuário</h2>
+            </div>
+          </div>
+
+          <div class="identity-grid">
+            <article class="identity-card wide">
+              <h3>1. Identificação da solução tecnológica</h3>
+              <label>
+                Nome da Solução Tecnológica
+                <textarea data-identification="technologyFullName"></textarea>
+              </label>
+              <label>
+                Nome para publicação no balanço social
+                <textarea data-identification="publicationName"></textarea>
+              </label>
+              <label>
+                Tema da Solução Tecnológica
+                <input data-identification="theme" type="text">
+              </label>
+              <label>
+                Imagem da tecnologia (URL ou referência)
+                <input data-identification="technologyImage" type="text" placeholder="https://...">
+              </label>
+              <label>
+                Unidades parceiras
+                <input data-identification="partnerUnits" type="text">
+              </label>
+              <div class="two-col">
+                <label>
+                  Cronologia
+                  <input data-identification="chronology" type="text">
+                </label>
+                <label>
+                  Biomas
+                  <input data-identification="biomes" type="text">
+                </label>
+              </div>
+              <label>
+                Vínculo a projeto SEG
+                <input data-identification="segProject" type="text">
+              </label>
+              <label>
+                Vínculo a PDE / Plano de negócios
+                <textarea data-identification="pdeLink"></textarea>
+              </label>
+              <label>
+                Outras metas atribuíveis
+                <textarea data-identification="otherGoals"></textarea>
+              </label>
+              <label>
+                Justificativa
+                <textarea class="large-text" data-identification="justification"></textarea>
+              </label>
+              <label>
+                Abrangência da adoção
+                <textarea data-identification="adoptionScope"></textarea>
+              </label>
+              <label>
+                Descrição sucinta da solução tecnológica
+                <textarea class="large-text" data-identification="shortDescription"></textarea>
+              </label>
+              <label>
+                Beneficiários
+                <textarea data-identification="beneficiaries"></textarea>
+              </label>
+              <label>
+                Papel da unidade na elaboração do relatório
+                <textarea data-identification="unitRole"></textarea>
+              </label>
+              <label>
+                Identificação dos impactos na cadeia produtiva
+                <textarea class="large-text" data-identification="chainImpacts"></textarea>
+              </label>
+            </article>
+
+            <article class="identity-card">
+              <h3>2. Usuário / especialista</h3>
+              <label>
+                Nome
+                <input data-user="name" type="text">
+              </label>
+              <label>
+                Instituição
+                <input data-user="institution" type="text">
+              </label>
+              <label>
+                Formação
+                <textarea data-user="formation"></textarea>
+              </label>
+              <label>
+                Setor
+                <textarea data-user="sector"></textarea>
+              </label>
+              <label>
+                Nome da propriedade
+                <input data-user="propertyName" type="text">
+              </label>
+              <label>
+                Data
+                <input data-user="date" type="date">
+              </label>
+              <label>
+                Quem administra a propriedade
+                <input data-user="propertyAdmin" type="text">
+              </label>
+              <label>
+                Nome do respondente
+                <input data-user="respondentName" type="text">
+              </label>
+              <label>
+                Telefone
+                <input data-user="phone" type="text">
+              </label>
+              <label>
+                Endereço e georreferenciamento
+                <textarea data-user="addressGeoref"></textarea>
+              </label>
+              <div class="two-col">
+                <label>
+                  Latitude
+                  <input data-user="latitude" type="text">
+                </label>
+                <label>
+                  Longitude
+                  <input data-user="longitude" type="text">
+                </label>
+              </div>
+              <label>
+                Atividade em avaliação
+                <input data-user="activityEvaluation" type="text">
+              </label>
+              <label>
+                Ano em que iniciou
+                <input data-user="startYear" type="text">
+              </label>
+              <label>
+                Três maiores problemas enfrentados
+                <textarea data-user="mainProblems"></textarea>
+              </label>
+            </article>
+          </div>
+        </section>
+
         <div class="workspace-heading">
           <div>
             <p class="eyebrow">Dimensão</p>
