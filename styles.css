@@ -1,0 +1,417 @@
+:root {
+  --bg: #f4f6f3;
+  --surface: #ffffff;
+  --surface-soft: #eef3ef;
+  --text: #202621;
+  --muted: #667067;
+  --line: #d7ded8;
+  --accent: #216e5d;
+  --accent-strong: #174c41;
+  --warn: #a15c18;
+  --bad: #a33737;
+  --blue: #315f89;
+  --shadow: 0 18px 50px rgba(24, 38, 31, 0.10);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 18px 28px;
+  background: rgba(244, 246, 243, 0.94);
+  border-bottom: 1px solid var(--line);
+  backdrop-filter: blur(12px);
+}
+
+h1,
+h2,
+p {
+  margin: 0;
+}
+
+h1 {
+  font-size: 28px;
+  line-height: 1.1;
+}
+
+h2 {
+  font-size: 19px;
+}
+
+.eyebrow {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.top-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+button {
+  border: 0;
+  border-radius: 6px;
+  background: var(--accent);
+  color: white;
+  cursor: pointer;
+  font-weight: 700;
+  min-height: 38px;
+  padding: 9px 13px;
+}
+
+button:hover {
+  background: var(--accent-strong);
+}
+
+button.secondary {
+  background: #dfe8e1;
+  color: var(--text);
+}
+
+button.secondary:hover {
+  background: #cfdacf;
+}
+
+.app-shell {
+  display: grid;
+  grid-template-columns: minmax(270px, 330px) minmax(0, 1fr);
+  gap: 20px;
+  padding: 22px 28px 40px;
+}
+
+.summary-panel {
+  align-self: start;
+  position: sticky;
+  top: 92px;
+}
+
+.panel-block,
+.criterion-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+}
+
+.panel-block {
+  padding: 18px;
+  margin-bottom: 14px;
+}
+
+.panel-block h2 {
+  margin-bottom: 14px;
+}
+
+.score-card {
+  display: grid;
+  gap: 4px;
+  padding: 18px;
+  background: var(--surface-soft);
+  border-radius: 8px;
+}
+
+.score-label,
+label {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.score-card strong {
+  color: var(--accent-strong);
+  font-size: 42px;
+  line-height: 1;
+}
+
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin: 14px 0 0;
+}
+
+.metrics div {
+  padding: 10px;
+  background: #f8faf8;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+}
+
+.metrics dt {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.metrics dd {
+  margin: 4px 0 0;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+label {
+  display: grid;
+  gap: 6px;
+  margin-top: 12px;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #fff;
+  color: var(--text);
+  min-height: 38px;
+  padding: 8px 10px;
+}
+
+textarea {
+  min-height: 38px;
+  resize: vertical;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--accent);
+  outline: 3px solid rgba(33, 110, 93, 0.15);
+}
+
+.validation-list {
+  display: grid;
+  gap: 8px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.validation-list li {
+  border-left: 4px solid var(--accent);
+  background: #f8faf8;
+  border-radius: 4px;
+  padding: 8px 10px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.validation-list li.warn {
+  border-left-color: var(--warn);
+  color: var(--warn);
+}
+
+.validation-list li.bad {
+  border-left-color: var(--bad);
+  color: var(--bad);
+}
+
+.workspace {
+  min-width: 0;
+}
+
+.workspace-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.criteria-list {
+  display: grid;
+  gap: 12px;
+}
+
+.criterion-card {
+  overflow: hidden;
+}
+
+.criterion-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 16px;
+  min-height: 62px;
+  padding: 14px 16px;
+  background: var(--surface);
+  color: var(--text);
+  text-align: left;
+  border-radius: 0;
+}
+
+.criterion-header:hover {
+  background: #f8faf8;
+}
+
+.criterion-header small {
+  display: block;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 3px;
+}
+
+.criterion-result {
+  flex: 0 0 auto;
+  min-width: 76px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  background: #e8f2ef;
+  color: var(--accent-strong);
+  font-weight: 800;
+  text-align: center;
+}
+
+.criterion-body {
+  display: none;
+  padding: 0 16px 16px;
+  border-top: 1px solid var(--line);
+}
+
+.criterion-card.open .criterion-body {
+  display: block;
+}
+
+.criterion-meta {
+  display: grid;
+  grid-template-columns: 150px minmax(0, 1fr);
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.component-table-wrap {
+  overflow-x: auto;
+}
+
+.component-table {
+  width: 100%;
+  min-width: 920px;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.component-table th,
+.component-table td {
+  border-bottom: 1px solid var(--line);
+  padding: 8px;
+  vertical-align: top;
+}
+
+.component-table th {
+  color: var(--muted);
+  font-size: 12px;
+  text-align: left;
+}
+
+.component-table th:nth-child(1) {
+  width: 26%;
+}
+
+.component-table th:nth-child(2),
+.component-table th:nth-child(3),
+.component-table th:nth-child(4),
+.component-table th:nth-child(5),
+.component-table th:nth-child(6) {
+  width: 88px;
+}
+
+.component-name {
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.na-cell {
+  display: flex;
+  justify-content: center;
+  padding-top: 14px;
+}
+
+.na-cell input {
+  min-height: auto;
+  width: 18px;
+  height: 18px;
+}
+
+.component-table input,
+.component-table select,
+.component-table textarea {
+  min-height: 34px;
+}
+
+.component-table select {
+  padding-left: 7px;
+}
+
+@media (max-width: 920px) {
+  .topbar,
+  .workspace-heading {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .top-actions {
+    justify-content: flex-start;
+  }
+
+  .app-shell {
+    grid-template-columns: 1fr;
+    padding: 18px;
+  }
+
+  .summary-panel {
+    position: static;
+  }
+}
+
+@media print {
+  .topbar,
+  .top-actions,
+  #printReport,
+  .summary-panel {
+    display: none;
+  }
+
+  .app-shell {
+    display: block;
+    padding: 0;
+  }
+
+  .criterion-body {
+    display: block;
+  }
+
+  .criterion-card {
+    box-shadow: none;
+    break-inside: avoid;
+    margin-bottom: 10px;
+  }
+}

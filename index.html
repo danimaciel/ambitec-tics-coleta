@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Ambitec-TICs | Coleta piloto</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">Ambitec-TICs</p>
+        <h1>Coleta piloto</h1>
+      </div>
+      <div class="top-actions">
+        <button id="saveDraft" type="button">Salvar</button>
+        <button id="loadSample" type="button">GeoInfo</button>
+        <button id="exportJson" type="button">JSON</button>
+        <button id="exportCsv" type="button">CSV</button>
+        <button id="clearDraft" type="button" class="secondary">Limpar</button>
+      </div>
+    </header>
+
+    <main class="app-shell">
+      <aside class="summary-panel" aria-label="Resumo da avaliação">
+        <section class="panel-block">
+          <h2>Resultado</h2>
+          <div class="score-card">
+            <span class="score-label">Índice da dimensão</span>
+            <strong id="dimensionScore">0,00</strong>
+          </div>
+          <dl class="metrics">
+            <div>
+              <dt>Critérios</dt>
+              <dd id="criteriaCount">8</dd>
+            </div>
+            <div>
+              <dt>Respondidos</dt>
+              <dd id="answeredCount">0</dd>
+            </div>
+            <div>
+              <dt>Pesos</dt>
+              <dd id="weightStatus">OK</dd>
+            </div>
+          </dl>
+        </section>
+
+        <section class="panel-block">
+          <h2>Metadados</h2>
+          <label>
+            Tecnologia
+            <input id="technologyName" type="text" value="GeoInfo">
+          </label>
+          <label>
+            Ciclo
+            <input id="cycleYear" type="number" value="2021" min="2000" max="2100">
+          </label>
+          <label>
+            Avaliador
+            <input id="evaluatorName" type="text" placeholder="Nome">
+          </label>
+          <label>
+            Unidade
+            <input id="unitName" type="text" placeholder="Unidade">
+          </label>
+        </section>
+
+        <section class="panel-block">
+          <h2>Validações</h2>
+          <ul id="validationList" class="validation-list"></ul>
+        </section>
+      </aside>
+
+      <section class="workspace" aria-label="Formulário de avaliação">
+        <div class="workspace-heading">
+          <div>
+            <p class="eyebrow">Dimensão</p>
+            <h2>Desenvolvimento Institucional</h2>
+          </div>
+          <button id="printReport" type="button" class="secondary">Relatório</button>
+        </div>
+        <div id="criteriaContainer" class="criteria-list"></div>
+      </section>
+    </main>
+
+    <template id="criterionTemplate">
+      <article class="criterion-card">
+        <button class="criterion-header" type="button">
+          <span>
+            <small></small>
+            <strong></strong>
+          </span>
+          <span class="criterion-result">0,00</span>
+        </button>
+        <div class="criterion-body">
+          <div class="criterion-meta">
+            <label>
+              Peso do critério
+              <input class="criterion-weight" type="number" min="0" max="1" step="0.1">
+            </label>
+            <label>
+              Aspecto
+              <input class="criterion-aspect" type="text" readonly>
+            </label>
+          </div>
+          <div class="component-table-wrap">
+            <table class="component-table">
+              <thead>
+                <tr>
+                  <th>Componente</th>
+                  <th>Peso</th>
+                  <th>Pontual</th>
+                  <th>Local</th>
+                  <th>Entorno</th>
+                  <th>N/A</th>
+                  <th>Justificativa</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </article>
+    </template>
+
+    <script src="app.js"></script>
+  </body>
+</html>
