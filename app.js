@@ -5,6 +5,7 @@ const scales = [
 ];
 
 const coefficientOptions = ["", "-3", "-1", "0", "1", "3"];
+const defaultDataEndpoint = "https://script.google.com/a/macros/embrapa.br/s/AKfycbyAPyy_s2LAwqi4KHhFcDyl2ihDQFj7TtHxOcMWWtgbOTlQZ3RPpW19ElgefqKn3O91kg/exec";
 
 const dimensions = ["Institucional", "Ambiental", "Econômica", "Social"];
 
@@ -487,7 +488,7 @@ const defaultUser = {
   mainProblems: ""
 };
 
-const stateKey = "ambitec-tics-piloto-v5";
+const stateKey = "ambitec-tics-piloto-v6";
 let currentDimension = "Institucional";
 
 const elements = {
@@ -645,7 +646,7 @@ function applyInitialIdentification() {
   writeNamedFields("[data-user]", "user", defaultUser);
   if (!elements.evaluatorName.value) elements.evaluatorName.value = defaultUser.name;
   if (!elements.unitName.value) elements.unitName.value = defaultUser.institution;
-  elements.dataEndpoint.value = localStorage.getItem(`${stateKey}:endpoint`) || "";
+  elements.dataEndpoint.value = localStorage.getItem(`${stateKey}:endpoint`) || defaultDataEndpoint;
 }
 
 function getResponsesFor(criteria) {
