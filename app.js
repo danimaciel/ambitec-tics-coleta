@@ -490,7 +490,7 @@ const defaultUser = {
   mainProblems: ""
 };
 
-const stateKey = "ambitec-tics-piloto-v8";
+const stateKey = "ambitec-tics-piloto-v9";
 let currentDimension = "Institucional";
 
 const elements = {
@@ -938,7 +938,9 @@ async function supabaseInsert(table, rows, prefer = "return=minimal") {
 }
 
 async function sendToSupabase(evaluation) {
-  const submissionRows = await supabaseInsert("ambitec_submissions", [{
+  const submissionId = crypto.randomUUID();
+  await supabaseInsert("ambitec_submissions", [{
+    id: submissionId,
     technology: evaluation.meta.technology,
     cycle: String(evaluation.meta.cycle || ""),
     evaluator: evaluation.meta.evaluator,
@@ -949,9 +951,8 @@ async function sendToSupabase(evaluation) {
     identification: evaluation.identification,
     respondent: evaluation.user,
     payload: evaluation,
-  }], "return=representation");
+  }]);
 
-  const submissionId = submissionRows[0].id;
   const responses = [];
   evaluation.criteria.forEach((criterion) => {
     criterion.components.forEach((component) => {
