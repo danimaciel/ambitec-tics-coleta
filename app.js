@@ -6,6 +6,8 @@ const scales = [
 
 const coefficientOptions = ["", "-3", "-1", "0", "1", "3"];
 const defaultDataEndpoint = "https://script.google.com/a/macros/embrapa.br/s/AKfycbyAPyy_s2LAwqi4KHhFcDyl2ihDQFj7TtHxOcMWWtgbOTlQZ3RPpW19ElgefqKn3O91kg/exec";
+const supabaseUrl = "https://fsqezxuypmxibntyhmzj.supabase.co";
+const supabasePublishableKey = "sb_publishable_xdiBWOLI-WYkafWnFzlFdA_RMOWNXix";
 
 const dimensions = ["Institucional", "Ambiental", "Econômica", "Social"];
 
@@ -488,7 +490,7 @@ const defaultUser = {
   mainProblems: ""
 };
 
-const stateKey = "ambitec-tics-piloto-v6";
+const stateKey = "ambitec-tics-piloto-v7";
 let currentDimension = "Institucional";
 
 const elements = {
@@ -894,19 +896,81 @@ function download(filename, content, type) {
 
 async function sendData() {
   const endpoint = elements.dataEndpoint.value.trim();
-  if (!endpoint) {
-    alert("Informe a URL do Google Apps Script em Destino de dados.");
-    return;
-  }
   const evaluation = update();
-  localStorage.setItem(`${stateKey}:endpoint`, endpoint);
-  await fetch(endpoint, {
+  await sendToSupabase(evaluation);
+  if (endpoint) {
+    localStorage.setItem(`${stateKey}:endpoint`, endpoint);
+    await fetch(endpoint, {
+      method: "POST",
+      mode: "no-cors",
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify(evaluation),
+    });
+  }
+  alert("Dados enviados. Confira o Supabase e, se configurada, a planilha de destino.");
+}
+
+async function supabaseInsert(table, rows, prefer = "return=minimal") {
+  const response = await fetch(`${supabaseUrl}/rest/v1/${table}`, {
     method: "POST",
-    mode: "no-cors",
-    headers: { "Content-Type": "text/plain;charset=utf-8" },
-    body: JSON.stringify(evaluation),
+    headers: {
+      apikey: supabasePublishableKey,
+      Authorization: `Bearer ${supabasePublishableKey}`,
+      "Content-Type": "application/json",
+      Prefer: prefer,
+    },
+    body: JSON.stringify(rows),
   });
-  alert("Envio solicitado. Confira a planilha de destino.");
+  if (!response.ok) {
+    const message = await response.text();
+    throw new Error(`Erro ao gravar em ${table}: ${message}`);
+  }
+  if (prefer.includes("return=representation")) {
+    return response.json();
+  }
+  return null;
+}
+
+async function sendToSupabase(evaluation) {
+  const submissionRows = await supabaseInsert("ambitec_submissions", [{
+    technology: evaluation.meta.technology,
+    cycle: String(evaluation.meta.cycle || ""),
+    evaluator: evaluation.meta.evaluator,
+    unit: evaluation.meta.unit,
+    selected_dimension: evaluation.meta.selectedDimension,
+    selected_dimension_score: evaluation.selectedDimensionScore,
+    overall_tic_score: evaluation.overallTicScore,
+    identification: evaluation.identification,
+    respondent: evaluation.user,
+    payload: evaluation,
+  }], "return=representation");
+
+  const submissionId = submissionRows[0].id;
+  const responses = [];
+  evaluation.criteria.forEach((criterion) => {
+    criterion.components.forEach((component) => {
+      responses.push({
+        submission_id: submissionId,
+        technology: evaluation.meta.technology,
+        cycle: String(evaluation.meta.cycle || ""),
+        dimension: criterion.dimension,
+        aspect: criterion.aspect,
+        criterion: criterion.name,
+        component: component.name,
+        criterion_weight: criterion.weight,
+        component_weight_k: component.weight,
+        pontual: component.values.pontual,
+        local: component.values.local,
+        entorno: component.values.entorno,
+        nao_se_aplica: component.na,
+        justificativa: component.justification,
+      });
+    });
+  });
+
+  if (responses.length) {
+    await supabaseInsert("ambitec_responses", responses);
+  }
 }
 
 function exportJson() {
