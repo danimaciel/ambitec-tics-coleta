@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Ambitec-TICs | Painel interno</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="admin.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">Ambitec-TICs</p>
+        <h1>Painel interno</h1>
+      </div>
+      <div class="top-actions">
+        <a class="button-link secondary" href="index.html">Coleta</a>
+        <button id="refreshData" type="button">Atualizar</button>
+        <button id="signOut" type="button" class="secondary">Sair</button>
+      </div>
+    </header>
+
+    <main class="admin-shell">
+      <section id="loginPanel" class="admin-card">
+        <h2>Acesso interno</h2>
+        <p class="helper-text">Informe seu e-mail para receber um link de acesso. A leitura dos dados depende das permissões do Supabase.</p>
+        <label>
+          E-mail
+          <input id="loginEmail" type="email" placeholder="seu.email@embrapa.br">
+        </label>
+        <button id="sendLogin" type="button">Enviar link</button>
+        <div id="loginStatus" class="submission-status idle">Aguardando login.</div>
+      </section>
+
+      <section id="dashboardPanel" class="admin-layout hidden">
+        <aside class="admin-card">
+          <h2>Filtros</h2>
+          <label>
+            Tecnologia
+            <input id="technologyFilter" type="search" placeholder="Filtrar por tecnologia">
+          </label>
+          <label>
+            Avaliador
+            <input id="evaluatorFilter" type="search" placeholder="Filtrar por avaliador">
+          </label>
+          <dl class="admin-metrics">
+            <div>
+              <dt>Submissões</dt>
+              <dd id="submissionTotal">0</dd>
+            </div>
+            <div>
+              <dt>Tecnologias</dt>
+              <dd id="technologyTotal">0</dd>
+            </div>
+            <div>
+              <dt>Avaliadores</dt>
+              <dd id="evaluatorTotal">0</dd>
+            </div>
+          </dl>
+        </aside>
+
+        <section class="admin-card">
+          <div class="admin-heading">
+            <h2>Avaliações registradas</h2>
+            <span id="dataStatus" class="helper-text">Sem dados carregados.</span>
+          </div>
+          <div class="admin-table-wrap">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Data</th>
+                  <th>Tecnologia</th>
+                  <th>Ciclo</th>
+                  <th>Avaliador</th>
+                  <th>Dimensão</th>
+                  <th>Índice TIC</th>
+                </tr>
+              </thead>
+              <tbody id="submissionsBody"></tbody>
+            </table>
+          </div>
+          <pre id="submissionDetail" class="detail-box">Selecione uma submissão para ver o payload.</pre>
+        </section>
+      </section>
+    </main>
+
+    <script src="admin.js"></script>
+  </body>
+</html>

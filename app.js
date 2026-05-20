@@ -490,7 +490,7 @@ const defaultUser = {
   mainProblems: ""
 };
 
-const stateKey = "ambitec-tics-piloto-v11";
+const stateKey = "ambitec-tics-piloto-v12";
 let currentDimension = "Institucional";
 
 const elements = {
@@ -638,7 +638,14 @@ function writeNamedFields(selector, attribute, values) {
 }
 
 function getIdentification() {
-  return readNamedFields("[data-identification]", "identification");
+  const identification = readNamedFields("[data-identification]", "identification");
+  if (!identification.technologyFullName && elements.technologyName.value.trim()) {
+    identification.technologyFullName = elements.technologyName.value.trim();
+  }
+  if (!identification.chronology && elements.cycleYear.value) {
+    identification.chronology = elements.cycleYear.value;
+  }
+  return identification;
 }
 
 function getUserRegistration() {
@@ -653,6 +660,16 @@ function applyInitialIdentification() {
   if (!elements.evaluatorName.value) elements.evaluatorName.value = defaultUser.name;
   if (!elements.unitName.value) elements.unitName.value = defaultUser.institution;
   elements.dataEndpoint.value = localStorage.getItem(`${stateKey}:endpoint`) || defaultDataEndpoint;
+}
+
+function applyBlankIdentification() {
+  writeNamedFields("[data-identification]", "identification", {});
+  writeNamedFields("[data-user]", "user", {});
+  elements.technologyName.value = "";
+  elements.cycleYear.value = "";
+  elements.evaluatorName.value = "";
+  elements.unitName.value = "";
+  elements.dataEndpoint.value = defaultDataEndpoint;
 }
 
 function setSubmissionStatus(type, message) {
@@ -956,10 +973,12 @@ async function supabaseInsert(table, rows, prefer = "return=minimal") {
 
 async function sendToSupabase(evaluation) {
   const submissionId = crypto.randomUUID();
+  const technology = evaluation.meta.technology || evaluation.identification.technologyFullName || "";
+  const cycle = String(evaluation.meta.cycle || evaluation.identification.chronology || "");
   await supabaseInsert("ambitec_submissions", [{
     id: submissionId,
-    technology: evaluation.meta.technology,
-    cycle: String(evaluation.meta.cycle || ""),
+    technology,
+    cycle,
     evaluator: evaluation.meta.evaluator,
     unit: evaluation.meta.unit,
     selected_dimension: evaluation.meta.selectedDimension,
@@ -975,8 +994,8 @@ async function sendToSupabase(evaluation) {
     criterion.components.forEach((component) => {
       responses.push({
         submission_id: submissionId,
-        technology: evaluation.meta.technology,
-        cycle: String(evaluation.meta.cycle || ""),
+        technology,
+        cycle,
         dimension: criterion.dimension,
         aspect: criterion.aspect,
         criterion: criterion.name,
@@ -1051,7 +1070,7 @@ document.querySelector("#clearDraft").addEventListener("click", () => {
   });
   currentDimension = "Institucional";
   buildInterface();
-  applyInitialIdentification();
+  applyBlankIdentification();
   setSubmissionStatus("idle", "Formulário limpo. Nenhum envio nesta sessão.");
   update();
 });
