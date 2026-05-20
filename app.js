@@ -490,7 +490,7 @@ const defaultUser = {
   mainProblems: ""
 };
 
-const stateKey = "ambitec-tics-piloto-v10";
+const stateKey = "ambitec-tics-piloto-v11";
 let currentDimension = "Institucional";
 
 const elements = {
@@ -648,6 +648,8 @@ function getUserRegistration() {
 function applyInitialIdentification() {
   writeNamedFields("[data-identification]", "identification", defaultIdentification);
   writeNamedFields("[data-user]", "user", defaultUser);
+  elements.technologyName.value = "Monitora Oeste";
+  elements.cycleYear.value = "2022";
   if (!elements.evaluatorName.value) elements.evaluatorName.value = defaultUser.name;
   if (!elements.unitName.value) elements.unitName.value = defaultUser.institution;
   elements.dataEndpoint.value = localStorage.getItem(`${stateKey}:endpoint`) || defaultDataEndpoint;
