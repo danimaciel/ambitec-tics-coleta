@@ -240,6 +240,37 @@ textarea:focus {
   margin-bottom: 10px;
 }
 
+.submission-status {
+  border-left: 4px solid var(--line);
+  background: #f8faf8;
+  border-radius: 4px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.35;
+  margin-bottom: 12px;
+  padding: 9px 10px;
+}
+
+.submission-status.sending {
+  border-left-color: var(--blue);
+  color: var(--blue);
+}
+
+.submission-status.success {
+  border-left-color: var(--accent);
+  color: var(--accent-strong);
+}
+
+.submission-status.error {
+  border-left-color: var(--bad);
+  color: var(--bad);
+}
+
+button:disabled {
+  cursor: wait;
+  opacity: 0.7;
+}
+
 .workspace {
   min-width: 0;
 }

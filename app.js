@@ -490,7 +490,7 @@ const defaultUser = {
   mainProblems: ""
 };
 
-const stateKey = "ambitec-tics-piloto-v9";
+const stateKey = "ambitec-tics-piloto-v10";
 let currentDimension = "Institucional";
 
 const elements = {
@@ -510,6 +510,8 @@ const elements = {
   evaluatorName: document.querySelector("#evaluatorName"),
   unitName: document.querySelector("#unitName"),
   dataEndpoint: document.querySelector("#dataEndpoint"),
+  sendButton: document.querySelector("#sendData"),
+  submissionStatus: document.querySelector("#submissionStatus"),
 };
 
 function formatNumber(value) {
@@ -649,6 +651,11 @@ function applyInitialIdentification() {
   if (!elements.evaluatorName.value) elements.evaluatorName.value = defaultUser.name;
   if (!elements.unitName.value) elements.unitName.value = defaultUser.institution;
   elements.dataEndpoint.value = localStorage.getItem(`${stateKey}:endpoint`) || defaultDataEndpoint;
+}
+
+function setSubmissionStatus(type, message) {
+  elements.submissionStatus.className = `submission-status ${type}`;
+  elements.submissionStatus.textContent = message;
 }
 
 function getResponsesFor(criteria) {
@@ -897,6 +904,9 @@ function download(filename, content, type) {
 async function sendData() {
   const endpoint = elements.dataEndpoint.value.trim();
   const evaluation = update();
+  elements.sendButton.disabled = true;
+  elements.sendButton.textContent = "Enviando...";
+  setSubmissionStatus("sending", "Enviando dados para o Supabase...");
   try {
     const submissionId = await sendToSupabase(evaluation);
     let googleMessage = "";
@@ -910,9 +920,14 @@ async function sendData() {
       });
       googleMessage = "\n\nTambém tentei enviar para o Google Sheets, mas o navegador não permite confirmar gravação nesse modo.";
     }
+    setSubmissionStatus("success", `Dados gravados no Supabase. ID: ${submissionId}`);
     alert(`Dados gravados no Supabase.\nID da submissão: ${submissionId}${googleMessage}`);
   } catch (error) {
+    setSubmissionStatus("error", `Falha no envio: ${error.message}`);
     alert(`Não foi possível enviar os dados.\n\n${error.message}`);
+  } finally {
+    elements.sendButton.disabled = false;
+    elements.sendButton.textContent = "Enviar";
   }
 }
 
@@ -1022,7 +1037,21 @@ document.querySelector("#exportCsv").addEventListener("click", exportCsv);
 document.querySelector("#printReport").addEventListener("click", () => window.print());
 document.querySelector("#clearDraft").addEventListener("click", () => {
   localStorage.removeItem(stateKey);
-  window.location.reload();
+  localStorage.removeItem(`${stateKey}:endpoint`);
+  document.querySelectorAll("input, textarea, select").forEach((field) => {
+    if (field.type === "checkbox") {
+      field.checked = false;
+    } else if (field.tagName === "SELECT") {
+      field.value = "";
+    } else {
+      field.value = "";
+    }
+  });
+  currentDimension = "Institucional";
+  buildInterface();
+  applyInitialIdentification();
+  setSubmissionStatus("idle", "Formulário limpo. Nenhum envio nesta sessão.");
+  update();
 });
 [elements.technologyName, elements.cycleYear, elements.evaluatorName, elements.unitName].forEach((input) => {
   input.addEventListener("input", update);
