@@ -5,7 +5,7 @@ const scales = [
 ];
 
 const coefficientOptions = ["", "-3", "-1", "0", "1", "3"];
-const defaultDataEndpoint = "https://script.google.com/a/macros/embrapa.br/s/AKfycbyAPyy_s2LAwqi4KHhFcDyl2ihDQFj7TtHxOcMWWtgbOTlQZ3RPpW19ElgefqKn3O91kg/exec";
+const defaultDataEndpoint = "";
 const supabaseUrl = "https://fsqezxuypmxibntyhmzj.supabase.co";
 const supabasePublishableKey = "sb_publishable_xdiBWOLI-WYkafWnFzlFdA_RMOWNXix";
 
@@ -490,7 +490,7 @@ const defaultUser = {
   mainProblems: ""
 };
 
-const stateKey = "ambitec-tics-piloto-v7";
+const stateKey = "ambitec-tics-piloto-v8";
 let currentDimension = "Institucional";
 
 const elements = {
@@ -897,17 +897,23 @@ function download(filename, content, type) {
 async function sendData() {
   const endpoint = elements.dataEndpoint.value.trim();
   const evaluation = update();
-  await sendToSupabase(evaluation);
-  if (endpoint) {
-    localStorage.setItem(`${stateKey}:endpoint`, endpoint);
-    await fetch(endpoint, {
-      method: "POST",
-      mode: "no-cors",
-      headers: { "Content-Type": "text/plain;charset=utf-8" },
-      body: JSON.stringify(evaluation),
-    });
+  try {
+    const submissionId = await sendToSupabase(evaluation);
+    let googleMessage = "";
+    if (endpoint) {
+      localStorage.setItem(`${stateKey}:endpoint`, endpoint);
+      await fetch(endpoint, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify(evaluation),
+      });
+      googleMessage = "\n\nTambém tentei enviar para o Google Sheets, mas o navegador não permite confirmar gravação nesse modo.";
+    }
+    alert(`Dados gravados no Supabase.\nID da submissão: ${submissionId}${googleMessage}`);
+  } catch (error) {
+    alert(`Não foi possível enviar os dados.\n\n${error.message}`);
   }
-  alert("Dados enviados. Confira o Supabase e, se configurada, a planilha de destino.");
 }
 
 async function supabaseInsert(table, rows, prefer = "return=minimal") {
@@ -971,6 +977,7 @@ async function sendToSupabase(evaluation) {
   if (responses.length) {
     await supabaseInsert("ambitec_responses", responses);
   }
+  return submissionId;
 }
 
 function exportJson() {
