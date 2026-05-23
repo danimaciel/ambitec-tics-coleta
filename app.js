@@ -491,6 +491,7 @@ const defaultUser = {
 };
 
 const stateKey = "ambitec-tics-piloto-v12";
+const clearedStateKey = `${stateKey}:cleared`;
 let currentDimension = "Institucional";
 
 const elements = {
@@ -842,6 +843,7 @@ function update() {
 }
 
 function saveDraft() {
+  localStorage.removeItem(clearedStateKey);
   localStorage.setItem(stateKey, JSON.stringify(update()));
   localStorage.setItem(`${stateKey}:endpoint`, elements.dataEndpoint.value.trim());
 }
@@ -885,6 +887,7 @@ function applyEvaluation(evaluation) {
 }
 
 function loadSample() {
+  localStorage.removeItem(clearedStateKey);
   const evaluation = {
     meta: getMeta(),
     identification: getIdentification(),
@@ -1059,6 +1062,7 @@ document.querySelector("#printReport").addEventListener("click", () => window.pr
 document.querySelector("#clearDraft").addEventListener("click", () => {
   localStorage.removeItem(stateKey);
   localStorage.removeItem(`${stateKey}:endpoint`);
+  localStorage.setItem(clearedStateKey, "1");
   document.querySelectorAll("input, textarea, select").forEach((field) => {
     if (field.type === "checkbox") {
       field.checked = false;
@@ -1075,14 +1079,24 @@ document.querySelector("#clearDraft").addEventListener("click", () => {
   update();
 });
 [elements.technologyName, elements.cycleYear, elements.evaluatorName, elements.unitName].forEach((input) => {
-  input.addEventListener("input", update);
+  input.addEventListener("input", () => {
+    localStorage.removeItem(clearedStateKey);
+    update();
+  });
 });
 elements.dataEndpoint.addEventListener("input", () => localStorage.setItem(`${stateKey}:endpoint`, elements.dataEndpoint.value.trim()));
 document.querySelectorAll("[data-identification], [data-user]").forEach((input) => {
-  input.addEventListener("input", update);
+  input.addEventListener("input", () => {
+    localStorage.removeItem(clearedStateKey);
+    update();
+  });
 });
 
 buildInterface();
-applyInitialIdentification();
+if (localStorage.getItem(clearedStateKey)) {
+  applyBlankIdentification();
+} else {
+  applyInitialIdentification();
+}
 restoreDraft();
 update();
